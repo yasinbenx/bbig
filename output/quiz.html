@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz: Rechte und Pflichten aus dem Ausbildungsvertrag</title>
+<style>
+:root{--navy:#14264b;--navy2:#22386b;--acc:#f5a800;--ink:#1a2238;--muted:#5b6680;--bg:#f4f6fb;
+--A:#d62839;--B:#1f6fd1;--C:#f7c600;--D:#2e9e4f;--ok:#2e9e4f;--bad:#d62839}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Liberation Sans',Arial,Helvetica,sans-serif;background:var(--navy);color:var(--ink);font-size:clamp(20px,2.2vw,40px);line-height:1.35}
+#app{min-height:100%;display:flex;flex-direction:column;border-left:clamp(10px,1.2vw,22px) solid var(--acc)}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:1.2vw 2.4vw;color:#fff}
+header .t{font-weight:700;letter-spacing:.02em}
+header .k{color:var(--acc);font-size:.7em;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+header .r{font-weight:700;color:var(--acc)}
+main{flex:1;padding:0 2.4vw 2vw;display:flex;flex-direction:column;gap:1.4vw}
+.btn{font:inherit;font-weight:700;cursor:pointer;border:0;border-radius:.5em;padding:.6em 1.3em;background:var(--acc);color:var(--navy)}
+.btn:hover{filter:brightness(1.06)}.btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);font-size:.7em;padding:.4em .9em}
+.btn:focus-visible,.ans:focus-visible{outline:4px solid #fff;outline-offset:3px}
+h1{color:#fff;font-size:1.9em;line-height:1.15}
+.lead{color:#dce3f2;font-size:.9em}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;margin-top:1vw}
+.tile{background:#fff;border:0;border-top:.5em solid var(--acc);border-radius:.6em;padding:1.1em 1.3em;text-align:left;cursor:pointer;font:inherit;color:var(--navy);min-height:5.2em}
+.tile:hover{transform:translateY(-3px)}
+.tile b{display:block;font-size:1.2em}.tile span{color:var(--muted);font-size:.8em}
+.layout{display:flex;gap:2vw;flex:1}
+.col{flex:1;display:flex;flex-direction:column;gap:1.3vw;min-width:0}
+.q{background:#fff;border-radius:.6em;padding:1em 1.3em;font-size:1.25em;font-weight:700;color:var(--navy);border-left:.3em solid var(--acc)}
+.q small{display:block;color:var(--muted);font-size:.55em;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3em}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:1.1vw}
+.ans{font:inherit;display:flex;align-items:center;gap:.7em;text-align:left;border:0;border-radius:.6em;padding:.7em .9em;cursor:pointer;min-height:3.4em;font-weight:700;color:#fff;border:.2em solid transparent}
+.ans .l{flex:none;width:1.7em;height:1.7em;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.1em}
+.ans[data-l=A]{background:var(--A)}.ans[data-l=A] .l{color:var(--A)}
+.ans[data-l=B]{background:var(--B)}.ans[data-l=B] .l{color:var(--B)}
+.ans[data-l=C]{background:var(--C);color:var(--navy)}.ans[data-l=C] .l{color:var(--navy)}
+.ans[data-l=D]{background:var(--D)}.ans[data-l=D] .l{color:var(--D)}
+.ans:hover:not(:disabled){filter:brightness(1.08)}
+.ans:disabled{cursor:default}
+.ans.dim{opacity:.28}.ans.gone{visibility:hidden}
+.ans.right{outline:.28em solid #fff;box-shadow:0 0 0 .5em var(--ok)}
+.ans.wrong{opacity:1;outline:.28em dashed #fff}
+.fb{border-radius:.6em;padding:.9em 1.2em;background:#fff;font-size:.9em;border-left:.35em solid var(--ok)}
+.fb.bad{border-left-color:var(--bad)}
+.fb h3{font-size:1.15em;margin-bottom:.2em}
+.fb.good h3{color:var(--ok)}.fb.bad h3{color:var(--bad)}
+.fb .p{display:inline-block;margin-top:.3em;background:#fff1cc;color:var(--navy);font-weight:700;border-radius:.3em;padding:.1em .5em}
+.bar{display:flex;gap:1em;align-items:center;justify-content:space-between}
+.ladder{width:clamp(170px,17vw,300px);display:flex;flex-direction:column-reverse;gap:.4em}
+.step{background:var(--navy2);color:#fff;border-radius:.4em;padding:.35em .7em;font-weight:700;display:flex;justify-content:space-between;opacity:.75;font-size:.85em}
+.step.cur{background:var(--acc);color:var(--navy);opacity:1;transform:scale(1.05)}.step.done{background:var(--ok);opacity:1}
+.step.top{border:2px solid var(--acc)}
+.res{background:#fff;border-radius:.7em;padding:1.2em 1.5em}
+.res .big{font-size:2.6em;font-weight:700;color:var(--navy);line-height:1.1}
+.res ul{list-style:none;margin-top:.8em;display:flex;flex-direction:column;gap:.45em}
+.res li{display:flex;gap:.7em;font-size:.8em;align-items:flex-start}
+.res .m{flex:none;width:1.6em;height:1.6em;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:700}
+.m.y{background:var(--ok)}.m.n{background:var(--bad)}.m.o{background:#9aa3b8}
+.res li span.p{color:var(--muted)}
+.progress{height:.4em;background:rgba(255,255,255,.25);border-radius:1em;overflow:hidden}.progress i{display:block;height:100%;background:var(--acc)}
+@media(max-width:800px){.menu,.answers{grid-template-columns:1fr}.layout{flex-direction:column}.ladder{width:100%;flex-direction:row;overflow:auto}}
+</style>
+</head>
+<body>
+<div id="app"><header><div><div class="k" id="kick">Prüfungsvorbereitung</div><div class="t" id="ttl">Rechte und Pflichten aus dem Ausbildungsvertrag</div></div><div class="r" id="right"></div></header><main id="main"></main></div>
+<script>
+const MODES = {"check": {"name": "Wissens-Check", "sub": "Station 1 · 3 Blitzfragen", "items": [{"q": "Wie lang darf die Probezeit höchstens sein?", "a": ["2 Monate", "3 Monate", "4 Monate", "6 Monate"], "c": 2, "fb": "§ 20 BBiG: ein bis vier Monate"}, {"q": "Wie hoch ist die Mindestausbildungsvergütung im 1. Ausbildungsjahr bei Ausbildungsbeginn 2026?", "a": ["650 €", "724 €", "854 €", "1.014 €"], "c": 1, "fb": "§ 17 BBiG"}, {"q": "Ein Azubi kündigt während der Probezeit. Welche Frist gilt?", "a": ["4 Wochen", "2 Wochen", "keine Frist", "Monatsende"], "c": 2, "fb": "§ 22 Abs. 1 BBiG"}]}, "million": {"name": "Azubi-Millionär", "sub": "Station 3 · 7 Fragen · 50:50-Joker", "items": [{"q": "Wie viele Monate dauert die Probezeit mindestens?", "a": ["1", "2", "3", "4"], "c": 0, "fb": "§ 20 BBiG", "stufe": "50 €"}, {"q": "Wer fasst den wesentlichen Inhalt des Ausbildungsvertrags in Textform ab?", "a": ["Berufsschule", "IHK", "Ausbildende", "Azubi"], "c": 2, "fb": "§ 11 BBiG", "stufe": "100 €"}, {"q": "Welche Pflicht hat der Ausbildende?", "a": ["Ausbildungsmittel kostenlos stellen", "Ausbildungsnachweis führen", "Weisungen befolgen", "Betriebsgeheimnisse wahren"], "c": 0, "fb": "§ 14 BBiG; B bis D sind Pflichten des Azubis (§ 13 BBiG)", "stufe": "200 €"}, {"q": "Wie viele Werktage Mindesturlaub hat ein volljähriger Azubi?", "a": ["20", "24", "25", "30"], "c": 1, "fb": "§ 3 BUrlG (20 Arbeitstage bei Fünf-Tage-Woche)", "stufe": "500 €"}, {"q": "Welche Kündigungsfrist hat der Azubi nach der Probezeit bei Berufswechsel?", "a": ["keine", "2 Wochen", "4 Wochen", "3 Monate"], "c": 2, "fb": "§ 22 Abs. 2 BBiG", "stufe": "1.000 €"}, {"q": "Wie hoch ist die Mindestausbildungsvergütung im 3. Ausbildungsjahr (Beginn 2026)?", "a": ["724 €", "854 €", "977 €", "1.014 €"], "c": 2, "fb": "§ 17 BBiG", "stufe": "5.000 €"}, {"q": "Eine Kündigung aus wichtigem Grund nach der Probezeit ist unwirksam, wenn …", "a": ["die Gründe länger als zwei Wochen bekannt sind", "der Azubi nicht zustimmt", "sie nicht zum Monatsende wirkt", "kein Zeuge dabei war"], "c": 0, "fb": "§ 22 Abs. 4 BBiG", "stufe": "1 Million €"}]}, "faelle": {"name": "IHK-Fälle", "sub": "Station 4 · Fälle A bis E", "items": [{"q": "Lena Berg beginnt am 01.09. bei der Muster GmbH eine Ausbildung zur Kauffrau für Büromanagement, vereinbart sind drei Monate Probezeit. Am 10.10. merkt sie, dass der Beruf nicht zu ihr passt. Welche Aussage ist richtig?", "a": ["Lena muss eine Kündigungsfrist von vier Wochen einhalten.", "Lena kann schriftlich und ohne Einhaltung einer Frist kündigen.", "Lena kann nur zum Monatsende kündigen.", "Lena braucht für die Kündigung die Zustimmung der IHK."], "c": 1, "fb": "In der Probezeit ist die Kündigung jederzeit ohne Frist möglich, aber schriftlich (§ 22 Abs. 1 und 3 BBiG).", "label": "Fall A · Probezeit und Kündigung"}, {"q": "Tim Roth ist zu Beginn des Kalenderjahres 17 Jahre alt und arbeitet an fünf Tagen pro Woche. Wie viele Werktage Mindesturlaub stehen ihm nach dem Gesetz zu?", "a": ["20 Werktage", "24 Werktage", "25 Werktage", "30 Werktage"], "c": 2, "fb": "Jugendliche unter 18 Jahren haben mindestens 25 Werktage (§ 19 JArbSchG), das entspricht 21 Arbeitstagen bei der Fünf-Tage-Woche.", "label": "Fall B · Urlaub"}, {"q": "Die Muster GmbH ist nicht tarifgebunden und bietet Jonas für den Ausbildungsbeginn 2026 im ersten Jahr 690 € brutto an. Welche Aussage ist richtig?", "a": ["Zulässig, wenn Jonas zustimmt.", "Zulässig, weil die Vergütung frei vereinbart werden darf.", "Unzulässig, im ersten Ausbildungsjahr gelten 2026 mindestens 724 €.", "Unzulässig, erst ab dem zweiten Jahr gilt eine Mindestvergütung."], "c": 2, "fb": "Die Mindestausbildungsvergütung nach § 17 BBiG darf nicht unterschritten werden.", "label": "Fall C · Vergütung"}, {"q": "Nina Koch ist 17 Jahre alt und Auszubildende. Wegen Personalmangel soll sie täglich 9 Stunden arbeiten. Welche Aussage ist richtig?", "a": ["Zulässig, wenn die Mehrarbeit vergütet wird.", "Unzulässig, für Jugendliche gelten höchstens 8 Stunden täglich und 40 Stunden wöchentlich.", "Zulässig, bis zu 10 Stunden wie bei Erwachsenen.", "Zulässig, wenn die Eltern zustimmen."], "c": 1, "fb": "§ 8 JArbSchG; ausnahmsweise sind 8,5 Stunden täglich erlaubt, wenn an anderen Tagen derselben Woche entsprechend weniger gearbeitet wird.", "label": "Reservefall D · tägliche Ausbildungszeit"}, {"q": "Ben beginnt nach dem Abitur eine dreijährige Ausbildung und möchte sie verkürzen. Welche Aussage ist richtig?", "a": ["Ben beantragt die Verkürzung allein bei der Berufsschule.", "Ben und der Betrieb beantragen die Verkürzung gemeinsam bei der zuständigen Stelle.", "Die Ausbildung verkürzt sich wegen des Abiturs automatisch.", "Nur der Betrieb darf die Verkürzung bei der IHK beantragen."], "c": 1, "fb": "§ 8 Abs. 1 BBiG; mit Abitur sind laut IHK bis zu zwölf Monate Verkürzung möglich.", "label": "Reservefall E · Beginn und Dauer"}]}, "abschluss": {"name": "Abschluss-Quiz", "sub": "Station 5 · 5 neue Situationen", "items": [{"q": "Eine Auszubildende ist zu Jahresbeginn 15 Jahre alt. Wie viele Werktage Mindesturlaub hat sie?", "a": ["24", "25", "27", "30"], "c": 3, "fb": "§ 19 JArbSchG (unter 16 Jahren)"}, {"q": "Ein Betrieb will eine Probezeit von sechs Monaten festlegen. Ist das zulässig?", "a": ["Ja, wenn der Azubi zustimmt", "Ja, in großen Betrieben", "Nein, höchstens vier Monate", "Nein, höchstens drei Monate"], "c": 2, "fb": "§ 20 BBiG"}, {"q": "Ein Azubi kündigt nach der Probezeit mündlich, weil er den Beruf wechseln will. Ist das wirksam?", "a": ["Ja, mit vier Wochen Frist", "Ja, ohne Frist", "Nein, die Kündigung muss schriftlich mit Angabe der Gründe erfolgen", "Nein, nur die IHK darf kündigen"], "c": 2, "fb": "§ 22 Abs. 2 und 3 BBiG"}, {"q": "Ein nicht tarifgebundener Betrieb zahlt im 2. Ausbildungsjahr (Beginn 2026) 800 €. Ist das zulässig?", "a": ["Ja, weil es mehr als im 1. Jahr ist", "Ja, wenn der Betrieb nicht tarifgebunden ist", "Nein, im 2. Jahr gelten mindestens 854 €", "Nein, im 2. Jahr gelten mindestens 977 €"], "c": 2, "fb": "§ 17 BBiG"}, {"q": "Ein volljähriger Azubi soll an einem Tag 10 Stunden arbeiten; im Durchschnitt von sechs Monaten bleibt es bei 8 Stunden. Ist das zulässig?", "a": ["Nein, höchstens 8 Stunden", "Ja, nach dem Arbeitszeitgesetz, wenn der Durchschnitt von 8 Stunden nicht überschritten wird", "Nein, nur mit Zustimmung der IHK", "Ja, dann sind sogar 12 Stunden erlaubt"], "c": 1, "fb": "§ 3 ArbZG"}]}};
+const L = ["A","B","C","D"];
+const $ = (s, e) => (e||document).querySelector(s);
+const main = $("#main"), kick = $("#kick"), ttl = $("#ttl"), right = $("#right");
+let st = null, key = null;
+
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  for (const k in (attrs||{})){ if (k==="class") e.className = attrs[k]; else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); }
+  kids.flat().forEach(c => e.append(c.nodeType ? c : document.createTextNode(c)));
+  return e;
+}
+function show(...nodes){ main.replaceChildren(...nodes); window.scrollTo(0,0); }
+
+function menu(){
+  st = null; key = null; kick.textContent = "Prüfungsvorbereitung"; ttl.textContent = "Rechte und Pflichten aus dem Ausbildungsvertrag"; right.textContent = "";
+  const tiles = Object.keys(MODES).map(k => h("button", {class:"tile", onclick:()=>start(k)}, h("b",{}, MODES[k].name), h("span",{}, MODES[k].sub)));
+  show(h("h1",{}, "Quiz: Wähle ein Spiel"), h("p",{class:"lead"}, "Antworten per Klick oder mit den Tasten A bis D. Weiter mit Enter oder Leertaste."), h("div",{class:"menu"}, tiles));
+}
+
+function start(k){
+  const m = MODES[k];
+  st = {k, m, i:0, results:[], done:false, answered:false, joker:false, hidden:[]};
+  render();
+}
+
+function render(){
+  const {m, k, i} = st, it = m.items[i];
+  st.answered = false; st.hidden = [];
+  kick.textContent = m.name; ttl.textContent = it.label || ("Frage " + (i+1) + " von " + m.items.length);
+  right.textContent = k==="million" ? "Gewinnstufe: " + it.stufe : (i+1) + " / " + m.items.length;
+  const q = h("div",{class:"q"}, h("small",{}, k==="million" ? ("Frage " + (i+1) + " von 7 · " + it.stufe) : (it.label || "Frage " + (i+1) + " von " + m.items.length)), it.q);
+  const answers = h("div",{class:"answers"}, it.a.map((t,j)=> h("button",{class:"ans","data-l":L[j],onclick:()=>choose(j)}, h("span",{class:"l"}, L[j]), h("span",{}, t))));
+  const fb = h("div",{id:"fbwrap"});
+  const bar = h("div",{class:"bar"}, h("button",{class:"btn ghost",onclick:menu},"Menü"), h("div",{id:"actions"}));
+  if (k==="million"){
+    const jb = h("button",{class:"btn",id:"joker",onclick:useJoker}, "50:50"); if (st.joker) jb.disabled = true, jb.style.opacity=.4;
+    $("#actions",bar) || null;
+    bar.lastChild.append(jb);
+  }
+  const col = h("div",{class:"col"}, q, answers, fb, bar);
+  const prog = h("div",{class:"progress"}, h("i",{style:"width:"+(i/m.items.length*100)+"%"}));
+  if (k==="million"){
+    const lad = h("div",{class:"ladder"}, m.items.map((x,j)=> h("div",{class:"step"+(j===i?" cur":"")+(j<i?" done":"")+(j===6?" top":"")}, h("span",{}, (j+1)), h("span",{}, x.stufe))));
+    show(prog, h("div",{class:"layout"}, col, lad));
+  } else show(prog, col);
+}
+
+function useJoker(){
+  if (st.answered || st.joker) return;
+  const it = st.m.items[st.i];
+  const wrong = [0,1,2,3].filter(j => j !== it.c).sort(()=>Math.random()-.5).slice(0,2);
+  st.joker = true; st.hidden = wrong;
+  document.querySelectorAll(".ans").forEach((b,j)=>{ if (wrong.includes(j)) { b.classList.add("gone"); b.disabled = true; } });
+  const jb = $("#joker"); jb.disabled = true; jb.style.opacity = .4;
+}
+
+function choose(j){
+  if (st.answered || st.hidden.includes(j)) return;
+  st.answered = true;
+  const it = st.m.items[st.i], ok = j === it.c;
+  st.results.push({ok, picked:j, it});
+  document.querySelectorAll(".ans").forEach((b,x)=>{ b.disabled = true; if (x===it.c) b.classList.add("right"); else if (x===j) b.classList.add("wrong"); else b.classList.add("dim"); });
+  const jb = $("#joker"); if (jb) jb.disabled = true;
+  const last = st.i === st.m.items.length-1, over = st.k==="million" && !ok;
+  const fb = h("div",{class:"fb "+(ok?"good":"bad")},
+    h("h3",{}, ok ? "Richtig!" : "Leider falsch."),
+    h("div",{}, ok ? "" : ("Richtig ist " + L[it.c] + ": " + it.a[it.c])),
+    h("span",{class:"p"}, it.fb));
+  $("#fbwrap").replaceChildren(fb);
+  $("#actions").append(h("button",{class:"btn",id:"next",onclick:next}, (last||over) ? "Zur Auswertung" : "Weiter"));
+  $("#next").focus();
+}
+
+function next(){
+  const last = st.i === st.m.items.length-1, lastRes = st.results[st.results.length-1];
+  if (last || (st.k==="million" && !lastRes.ok)) return result();
+  st.i++; render();
+}
+
+function result(){
+  const {m, k, results} = st, n = results.filter(r=>r.ok).length, total = m.items.length;
+  kick.textContent = m.name; ttl.textContent = "Auswertung"; right.textContent = "";
+  let head;
+  if (k==="million"){
+    const won = results.filter(r=>r.ok).length;
+    head = [h("div",{class:"big"}, won===7 ? "1 Million €" : (won ? m.items[won-1].stufe : "keine Gewinnstufe")), h("div",{}, won===7 ? "Alle 7 Fragen richtig!" : (n + " von " + total + " Fragen richtig beantwortet. Das Spiel endet bei der ersten falschen Antwort."))];
+  } else head = [h("div",{class:"big"}, n + " von " + total), h("div",{}, "Fragen richtig beantwortet.")];
+  const lis = m.items.map((it,j)=>{ const r = results[j];
+    return h("li",{}, h("span",{class:"m "+(r?(r.ok?"y":"n"):"o")}, r?(r.ok?"✓":"✗"):"–"),
+      h("div",{}, h("b",{}, it.label || ("Frage " + (j+1))), " – ", (it.q.length>90 ? it.q.slice(0,88).trim()+" …" : it.q), h("br"), h("span",{class:"p"}, r ? ("Richtig: " + L[it.c] + " · ") : "nicht gespielt · ", it.fb))); });
+  show(h("div",{class:"res"}, head, h("ul",{}, lis)),
+    h("div",{class:"bar"}, h("button",{class:"btn ghost",onclick:menu},"Menü"), h("button",{class:"btn",onclick:()=>start(k)},"Nochmal spielen")));
+}
+
+document.addEventListener("keydown", e => {
+  if (!st) return;
+  const k = e.key.toUpperCase();
+  if (L.includes(k) && !st.done && $(".ans")) { choose(L.indexOf(k)); }
+  else if ((e.key==="Enter"||e.key===" ") && $("#next") && document.activeElement.tagName!=="BUTTON") { e.preventDefault(); next(); }
+});
+menu();
+</script>
+</body>
+</html>
