@@ -22,9 +22,9 @@ P.append(f"""<section class="page" style="background:{NAVY};color:#fff">
 
 # 2 Einleitung
 toc = [("Vertrag und Dauer", "3"), ("Ausbildungszeit und Vergütung", "4"), ("Urlaub und Probezeit", "5"), ("Kündigung", "6"), ("Pflichten von Azubi und Ausbildenden", "7"),
-       ("Praxisbeispiele", "8"), ("Merkblatt", "9"), ("Aufgaben", "10"), ("Erwartungshorizont", "11"), ("Mini-Quiz und Quellen", "12"), ("Glossar", "13")]
+       ("Praxisbeispiele", "8"), ("Merkblatt", "9"), ("Aufgaben", "10–12"), ("Erwartungshorizont", "13"), ("Mini-Quiz und Quellen", "14"), ("Glossar", "15")]
 tl = "".join(f'<div style="display:flex;gap:2mm;font-size:11pt;margin-bottom:1.6mm"><span style="color:{NAVY};font-weight:700">{esc(a)}</span><span style="flex:1;border-bottom:0.4mm dotted #9AA3B8;transform:translateY(-1mm)"></span><b>{b}</b></div>' for a, b in toc)
-steps = ["Lies die Seiten 3 bis 8.", "Trenne das Merkblatt auf Seite 9 heraus.", "Löse die Aufgaben auf Seite 10 und vergleiche erst danach mit dem Erwartungshorizont auf Seite 11.", "Teste dich mit dem Mini-Quiz auf Seite 12."]
+steps = ["Lies die Seiten 3 bis 8.", "Trenne das Merkblatt auf Seite 9 heraus.", "Löse die Aufgaben auf den Seiten 10 bis 12 und vergleiche erst danach mit dem Erwartungshorizont auf Seite 13.", "Teste dich mit dem Mini-Quiz auf Seite 14."]
 sl = "".join(f'<li style="margin-bottom:2.5mm">{esc(s)}</li>' for s in steps)
 P.append(page("Einleitung", "Einleitung und „So nutzt du das Booklet“", f"""
 <p class="lead">Jede Berufsausbildung beginnt mit einem Vertrag – und der regelt mehr, als viele denken. Dieses Booklet fasst zusammen, was im Berufsbildungsgesetz (BBiG) zu Beginn, Dauer, Arbeitszeit, Vergütung, Urlaub, Probezeit und Kündigung steht. Kurz, verständlich, mit echten Beispielen.</p>
@@ -117,21 +117,21 @@ P.append(page("Kapitel 10", "Praxisbeispiele aus dem eigenen Ausbildungsverhält
 # 9 Merkblatt
 P.append(merkblatt_page(9))
 
-# 10 Aufgaben
+# 10-12 Aufgaben (drei Seiten)
 def fall_c(f):
-    ans = "".join(f'<div style="display:flex;gap:1.6mm;margin-top:0.6mm;font-size:8.4pt;line-height:1.22"><b style="flex:none;width:4.2mm;height:4.2mm;border-radius:50%;border:0.35mm solid {NAVY};color:{NAVY};text-align:center;line-height:3.6mm;font-size:7.6pt">{L}</b><span>{esc(t)}</span></div>' for L, t in zip("ABCD", f["a"]))
-    return f'<div style="border-left:1.6mm solid {NAVY};background:#F9FAFD;padding:1.6mm 2.6mm;margin-bottom:2mm"><div style="font-weight:700;color:{NAVY};font-size:9.2pt;margin-bottom:0.6mm"><span style="background:{NAVY};color:{ACCENT};border-radius:1mm;padding:0 1.4mm;margin-right:1.4mm">{f["id"]}</span>Fall {f["id"]} ({esc(f["titel"])})</div><div style="font-size:8.4pt;line-height:1.25">{esc(f["q"])}</div>{ans}</div>'
-det = "".join(f'<div style="margin-bottom:0.6mm">{esc(t)}</div>' for t, _ in DET)
-kopf = "".join(f'<div style="{"font-weight:700;color:"+NAVY+";margin-bottom:0.6mm" if i==0 else ""}">{esc(t)}</div>' for i, t in enumerate(DET_KOPF))
-wf = "".join(f'<div style="display:grid;grid-template-columns:4mm 1fr 8mm 8mm;gap:1.2mm;padding:1.1mm 0;border-bottom:0.25mm solid #D5D9E3;align-items:start"><b style="color:{NAVY};font-size:8.6pt">{i+1}</b><div style="font-size:8.3pt;line-height:1.22">{esc(t)}</div><div style="text-align:center;font-size:10pt;line-height:1">☐</div><div style="text-align:center;font-size:10pt;line-height:1">☐</div></div>' for i, (t, _, _) in enumerate(RG))
-wfh = f'<div style="display:grid;grid-template-columns:4mm 1fr 8mm 8mm;gap:1.2mm;font-size:6.8pt;color:{MUTED};text-align:center;line-height:1.1;margin-bottom:0.8mm"><span></span><span></span><span>stimmt</span><span>stimmt nicht</span></div>'
-P.append(page("Aufgaben", "Aufgaben", f"""
-<div style="margin-top:-5mm">
-<div style="font-size:9.4pt;margin-bottom:1.2mm"><b style="color:{NAVY}">Aufgabe 1 · Vertrags-Detektiv:</b> Im Auszug stecken 5 Fehler. Finde sie und begründe sie mit der passenden Regel.</div>
-<div style="background:#F6F8FC;border:0.4mm solid #BFC6D6;border-radius:2mm;padding:2mm 4mm;font-family:'Liberation Serif',serif;font-size:9.3pt;line-height:1.25">{kopf}<div style="border-top:0.3mm solid #BFC6D6;margin:1.2mm 0"></div>{det}</div>
-<div style="display:grid;grid-template-columns:101mm 1fr;gap:5mm;margin-top:2.6mm;align-items:start">
-<div><div style="font-weight:700;color:{NAVY};font-size:9.6pt;margin-bottom:1.2mm">Aufgabe 2 · IHK-Fälle A bis C <span style="font-weight:400;color:{MUTED}">(wähle A–D, begründe mit einer Regel)</span></div>{"".join(fall_c(f) for f in FAELLE_ABC)}</div>
-<div><div style="font-weight:700;color:{NAVY};font-size:9.6pt;margin-bottom:1mm">Aufgabe 3 · Wahr oder falsch</div>{wfh}{wf}</div></div></div>""", P_AUFG))
+    ans = "".join(f'<div class="ans" style="margin-top:1.2mm;padding:1.1mm 3mm;font-size:10pt"><b>{L}</b><span>{esc(t)}</span></div>' for L, t in zip("ABCD", f["a"]))
+    return f'<div class="card" style="margin-bottom:3.5mm;padding:2.8mm 5mm"><h3><span>{f["id"]}</span>Fall {f["id"]} ({esc(f["titel"])})</h3><div style="margin-bottom:1mm;font-size:10.5pt">{esc(f["q"])}</div>{ans}</div>'
+det = "".join(f'<div style="margin-bottom:1.6mm">{esc(t)}</div>' for t, _ in DET)
+kopf = "".join(f'<div style="{"font-weight:700;color:"+NAVY+";margin-bottom:1mm" if i==0 else ""}">{esc(t)}</div>' for i, t in enumerate(DET_KOPF))
+rows_det = "".join(f'<tr><td class="b" style="text-align:center;width:14mm;height:13mm">{i}</td><td style="width:42mm"></td><td style="width:58mm"></td><td></td></tr>' for i in range(1, 6))
+P.append(page("Aufgabe 1", "Vertrags-Detektiv", f"""
+<p style="font-size:12pt;margin-bottom:3mm">Im Vertragsauszug stecken <b>5 Fehler</b>. Finde sie und begründe sie mit der passenden Regel.</p>
+<div style="background:#F6F8FC;border:0.4mm solid #BFC6D6;border-radius:2mm;padding:4mm 6mm;font-family:'Liberation Serif',serif;font-size:12pt;line-height:1.35">{kopf}<div style="border-top:0.3mm solid #BFC6D6;margin:2mm 0"></div>{det}</div>
+<div style="font-weight:700;color:{NAVY};font-size:11pt;margin:7mm 0 2mm">Meine Lösung</div>
+<table class="t" style="font-size:10pt"><tr><th style="text-align:center">Fehler</th><th>Stelle im Vertrag</th><th>Regel (Paragraf)</th><th>Begründung</th></tr>{rows_det}</table>""", 10, qr_head=True))
+P.append(page("Aufgabe 2", "IHK-Fälle A bis C", A("Wähle A–D und begründe mit einer Regel. Die Lösung steht auf Seite 13.", "font-size:11pt") + "".join(fall_c(f) for f in FAELLE_ABC), 11, qr_head=True))
+wf = "".join(f'<div style="display:grid;grid-template-columns:8mm 1fr 22mm 28mm;gap:3mm;padding:3mm 0;border-bottom:0.3mm solid #D5D9E3;align-items:center"><b style="color:{NAVY};font-size:12pt">{i+1}</b><div style="font-size:11.5pt;line-height:1.35">{esc(t)}</div><div style="font-size:10pt;color:{MUTED}">☐ stimmt</div><div style="font-size:10pt;color:{MUTED}">☐ stimmt nicht</div></div>' for i, (t, _, _) in enumerate(RG))
+P.append(page("Aufgabe 3", "Wahr oder falsch", A("Stimmt die Aussage? Kreuze an. Die Lösung steht auf Seite 13.", "font-size:11pt") + wf, 12, qr_head=True))
 
 # 11 Erwartungshorizont
 t_det = "".join(f'<tr><td class="b" style="text-align:center">{n}</td><td>{esc(a)}</td><td>{esc(b)}</td><td style="text-align:center;white-space:nowrap">2 (1 + 1)</td></tr>' for n, (a, b) in FEHLER.items())
@@ -156,7 +156,7 @@ P.append(page("Quiz", "Mini-Quiz und Quellenverzeichnis", A("Ordne die Situation
 
 # 13 Glossar
 gl = "".join(f'<div style="display:grid;grid-template-columns:58mm 1fr;gap:5mm;padding:3.2mm 0;border-bottom:0.3mm solid #D5D9E3"><b style="color:{NAVY};font-size:12pt">{esc(t)}</b><span style="font-size:11.5pt">{esc(d)}</span></div>' for t, d in GLOSSAR)
-P.append(page("Nachschlagen", "Glossar", gl, 13))
+P.append(page("Nachschlagen", "Glossar", gl, 15))
 
-assert len(P) == 13, len(P)
+assert len(P) == 15, len(P)
 open(os.path.join(os.path.dirname(__file__), "v2_booklet.html"), "w", encoding="utf-8").write(doc("".join(P), "Rechte und Pflichten aus dem Ausbildungsvertrag"))

@@ -18,10 +18,11 @@ AP = [
     (4, "Praxisbeispiele sammeln und anonymisieren", 8, [1], "M", None),
     (5, "Booklet mit Kapiteln, Merkblatt und Mini-Quiz erstellen", 4, [3, 4], "Y+M", OKT),
     (6, "Aufgaben mit Erwartungshorizont erstellen", 2, [3, 4], "Y+M", OKT),
-    (7, "Präsentation erstellen", 2, [6], "Y+M", None),
-    (8, "Material, Korrekturlesen und Probelauf", 1, [5, 7], "Y+M", None),
-    (9, "Projektbericht schreiben", 5, [3], "Y+M", OKT),
-    (10, "Präsentation halten (08.10.)", 1, [8, 9], "Y+M", None),
+    (7, "Interaktive Website mit QR-Code", 2, [3, 4], "Y+M", OKT),
+    (8, "Präsentation erstellen", 2, [6, 7], "Y+M", None),
+    (9, "Material, Korrekturlesen und Probelauf", 1, [5, 8], "Y+M", None),
+    (10, "Projektbericht schreiben", 5, [3], "Y+M", OKT),
+    (11, "Präsentation halten (08.10.)", 1, [9, 10], "Y+M", None),
 ]
 AP4 = [(n, nm, d, pr, w) for n, nm, d, pr, w, _ in AP]     # kompatibel zu plan.py
 NAME = {n: nm for n, nm, *_ in AP}
@@ -59,9 +60,9 @@ AP = AP4        # die Zeichner erwarten (nr, name, dauer, vorgaenger, wer)
 MS_DEF = [
     (1, "Projektskizze und Ziele fertig", [1]),
     (2, "Planung und Praxisbeispiele fertig", [3, 4]),
-    (3, "Booklet und Aufgaben fertig", [5, 6]),
-    (4, "Präsentation und Material fertig", [8]),
-    (5, "Präsentation gehalten", [10]),
+    (3, "Booklet und Aufgaben fertig", [5, 6, 7]),
+    (4, "Präsentation und Material fertig", [9]),
+    (5, "Präsentation gehalten", [11]),
 ]
 MS = [(k, nm, max(end(a) for a in aps)) for k, nm, aps in MS_DEF]
 
@@ -70,14 +71,14 @@ PSP = dict(
     children=[
         dict(t="Vorbereitung", aps=[1], sub=dict(t="Planung", aps=[2, 3])),
         dict(ap=4),
-        dict(t="Booklet und Aufgaben", aps=[5, 6]),
-        dict(t="Präsentation und Abschluss", aps=[7, 8, 9, 10]),
+        dict(t="Booklet und Aufgaben", aps=[5, 6, 7]),
+        dict(t="Präsentation und Abschluss", aps=[8, 9, 10, 11]),
     ],
 )
 OWNER_LONG = {"Y": "Yasin", "M": "Mido", "Y+M": "Yasin & Mido"}
 
-# Netzplan-Positionen (Ebene, Zeile): AP5, AP6, AP9 laufen parallel
-POS_NET = {1: (0, 1), 2: (1, 0), 4: (1, 2), 3: (2, 0), 9: (3, 0), 5: (3, 1), 6: (3, 2), 7: (4, 2), 8: (5, 1), 10: (6, 1)}
+# Netzplan-Positionen (Ebene, Zeile): AP5, AP6, AP7 und AP10 laufen parallel
+POS_NET = {1: (0, 1), 2: (1, 0), 4: (1, 2), 3: (2, 0), 10: (3, 0), 5: (3, 1), 6: (3, 2), 7: (3, 3), 8: (4, 3), 9: (5, 1), 11: (6, 1)}
 
 if __name__ == "__main__":
     for n, nm, d, pred, who in AP:

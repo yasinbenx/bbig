@@ -8,6 +8,11 @@ Rote/Grüne Karte, Vertrags-Detektiv, IHK-Fälle, Mini-Quiz, Experten-Karten, Me
 - Alle Pfade sind relativ. Die Seite läuft deshalb auch unter einem Unterpfad (zum Beispiel `https://name.github.io/azubi-vertrag/`).
 - Gesamtgröße ca. 50 KB.
 
+## Erwartete Adresse und QR-Code
+
+Der QR-Code in Präsentation, Booklet und Merkblatt zeigt auf **https://yasinbenx.github.io/azubi-vertrag/**.
+Lege das Repository deshalb genau mit dem Namen `azubi-vertrag` an (Konto `yasinbenx`). Weicht die Adresse ab, muss der QR-Code neu erzeugt werden.
+
 ## Ordner
 
 | Datei | Inhalt |

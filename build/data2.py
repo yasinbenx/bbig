@@ -42,5 +42,5 @@ FEHLER = {
 FAELLE_ABC = [f for f in FAELLE if f["id"] in "ABC"]
 LEHRKRAFT = "Frau Schorr-Fischer"
 
-# Aufgabenplan Seitenzahlen (Booklet v2, 13 Seiten)
-P_AUFG, P_EH, P_QUIZ, P_MERK = 10, 11, 12, 9
+# Aufgabenplan Seitenzahlen (Booklet v2, 15 Seiten)
+P_AUFG, P_EH, P_QUIZ, P_MERK = 10, 13, 14, 9

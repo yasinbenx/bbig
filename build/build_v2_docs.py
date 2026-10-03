@@ -149,8 +149,8 @@ heading(doc, "2.", "Einreicher / Ansprechpartner")
 p = para(doc, "", 10); run(p, "Yasin & Mido", 10, True, NAVY); run(p, f"  ·  Betreuende Lehrkraft: {LEHRKRAFT}  ·  Klasse: [eintragen]", 10)
 heading(doc, "3.", "Vorläufige Umschreibung der Projektidee")
 para(doc, "Wir werden ein Booklet und eine interaktive Unterrichtsstunde zum Thema „Rechte und Pflichten aus dem Ausbildungsvertrag“ erstellen, um Mitschüler auf die schriftliche IHK-Abschlussprüfung am 25.11.2026 vorzubereiten (Prüfungsbereich Wirtschafts- und Sozialkunde). Inhaltlich geht es um die sechs Prüfungspunkte Beginn und Dauer der Ausbildung, tägliche Ausbildungszeit, Vergütung, Urlaub, Probezeit und Kündigung sowie um die Pflichten von Auszubildenden und Ausbildenden. Rechtsgrundlage ist vor allem das Berufsbildungsgesetz (BBiG).", 10, after=3)
-para(doc, "Das Booklet soll 13 Seiten umfassen: kurze Kapitel in einfacher Sprache, ein Merkblatt für eine Seite, Aufgaben (Vertrags-Detektiv, IHK-Fälle, Wahr oder falsch) mit Erwartungshorizont, ein Mini-Quiz, Glossar und Quellenverzeichnis. Die Praxisbeispiele sollen aus einem anonymisierten, eigenen Ausbildungsvertrag stammen.", 10, after=3)
-para(doc, "In der Unterrichtsstunde (bis zu 45 Minuten) stellen wir das Projekt kurz vor und üben danach mit der Klasse in zwei Aktivitäten: Rote/Grüne Karte und Vertrags-Detektiv. Dazu schreiben wir einen Projektbericht.", 10, after=2)
+para(doc, "Das Booklet soll 15 Seiten umfassen: kurze Kapitel in einfacher Sprache, ein Merkblatt für eine Seite, Aufgaben (Vertrags-Detektiv, IHK-Fälle, Wahr oder falsch) mit Erwartungshorizont, ein Mini-Quiz, Glossar und Quellenverzeichnis. Die Praxisbeispiele sollen aus einem anonymisierten, eigenen Ausbildungsvertrag stammen.", 10, after=3)
+para(doc, "In der Unterrichtsstunde (bis zu 45 Minuten) stellen wir das Projekt kurz vor und üben danach mit der Klasse in zwei Aktivitäten: Rote/Grüne Karte und Vertrags-Detektiv. Die Klasse macht die Aktivitäten auf dem eigenen Handy über eine kleine interaktive Website, die sie per QR-Code öffnet; gedruckt wird nur das Merkblatt. Dazu schreiben wir einen Projektbericht.", 10, after=2)
 heading(doc, "4.", "Vorteile / erwarteter Nutzen")
 bullet(doc, [("Mitschüler: ", True), ("Zum Ausbildungsvertrag gibt es bisher kein kompaktes Lernmaterial mit Aufgaben und Lösungen. Unser Booklet erklärt die Regeln in einfacher Sprache statt Gesetzesdeutsch.", False)])
 bullet(doc, [("Prüfungsnah: ", True), ("Der IHK-Prüfungsbereich Wirtschafts- und Sozialkunde dauert 60 Minuten, besteht aus fallbezogenen Aufgaben und zählt 10 % der Gesamtnote. Unsere Aufgaben üben genau solche Fälle.", False)])
@@ -161,8 +161,8 @@ para(doc, "Die Arbeit gliedert sich in vier Stufen, die im Projektstrukturplan a
 table(doc, [0.8, 4.9, 9.6, 1.7], ["", "Stufe", "Inhalt", "AP"], [
     ("1", "Vorbereitung", "Projektskizze und Ziele erstellen; Planung mit Projektstrukturplan und Projektablaufplan", "1–3"),
     ("2", "Praxisbeispiele", "Praxisbeispiele sammeln und anonymisieren", "4"),
-    ("3", "Booklet und Aufgaben", "Booklet mit Kapiteln, Merkblatt und Mini-Quiz erstellen; Aufgaben mit Erwartungshorizont erstellen", "5–6"),
-    ("4", "Präsentation und Abschluss", "Präsentation erstellen; Material, Korrekturlesen und Probelauf; Projektbericht schreiben; Präsentation halten (08.10.)", "7–10"),
+    ("3", "Booklet und Aufgaben", "Booklet mit Kapiteln, Merkblatt und Mini-Quiz erstellen; Aufgaben mit Erwartungshorizont erstellen; Interaktive Website mit QR-Code", "5–7"),
+    ("4", "Präsentation und Abschluss", "Präsentation erstellen; Material, Korrekturlesen und Probelauf; Projektbericht schreiben; Präsentation halten (08.10.)", "8–11"),
 ])
 para(doc, "Aufgabenverteilung: Recherche und Texte liegen bei Yasin; Vertragssichtung, Praxisbeispiele, Grafiken und Korrekturlesen bei Mido; Gliederung, Layout und Präsentation machen wir gemeinsam. Projektstrukturplan und Projektablaufplan liegen im Anhang.", 9.5, after=2, before=4)
 heading(doc, "6.", "Laufzeit")
@@ -171,8 +171,8 @@ table(doc, [4.7, 10.5, 1.8], ["Zeitraum", "Schwerpunkt", "AP"], [
     ("Woche 1 (10.09.–16.09.)", "Projektskizze und Ziele erstellen", "1"),
     ("Woche 2 (17.09.–23.09.)", "Projektstrukturplan erstellen, Projektablaufplan beginnen, Praxisbeispiele sammeln", "2–4"),
     ("Woche 3 (24.09.–30.09.)", "Projektablaufplan abschließen, Praxisbeispiele sammeln und anonymisieren", "3–4"),
-    ("Woche 4 (01.10.–07.10.)", "Umsetzung: Booklet, Aufgaben, Präsentation, Material und Probelauf, Projektbericht", "5–9"),
-    ("08.10.2026", "Präsentation halten", "10"),
+    ("Woche 4 (01.10.–07.10.)", "Umsetzung: Booklet, Aufgaben, Website, Präsentation, Material und Probelauf, Projektbericht", "5–10"),
+    ("08.10.2026", "Präsentation halten", "11"),
 ])
 # Kontrolle: Wochenzuordnung stimmt mit dem berechneten Plan ueberein
 import datetime as _dt
@@ -180,7 +180,7 @@ def _aps(a, b): return sorted(n for n in ES if start(n) <= b and end(n) >= a)
 assert _aps(_dt.date(2026,9,10), _dt.date(2026,9,16)) == [1], _aps(_dt.date(2026,9,10), _dt.date(2026,9,16))
 assert _aps(_dt.date(2026,9,17), _dt.date(2026,9,23)) == [2,3,4], _aps(_dt.date(2026,9,17), _dt.date(2026,9,23))
 assert _aps(_dt.date(2026,9,24), _dt.date(2026,9,30)) == [3,4], _aps(_dt.date(2026,9,24), _dt.date(2026,9,30))
-assert _aps(_dt.date(2026,10,1), _dt.date(2026,10,7)) == [5,6,7,8,9], _aps(_dt.date(2026,10,1), _dt.date(2026,10,7))
+assert _aps(_dt.date(2026,10,1), _dt.date(2026,10,7)) == [5,6,7,8,9,10], _aps(_dt.date(2026,10,1), _dt.date(2026,10,7))
 ms = " · ".join(f"M{k} {nm} ({fmt(t)})" for k, nm, t in MS)
 para(doc, "Meilensteine: " + ms + ".", 9.5, after=2, before=4)
 heading(doc, "7.", "Finanzierung")

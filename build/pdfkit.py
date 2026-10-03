@@ -63,17 +63,29 @@ ul.l {{ margin: 0 0 3mm 5mm; }} ul.l li {{ margin-bottom: 1.5mm; }}
 """
 
 
+import base64, os as _os
+URL_QR = "https://yasinbenx.github.io/azubi-vertrag/"
+URL_KURZ = "yasinbenx.github.io/azubi-vertrag"
+def qr_uri():
+    p = _os.path.join(_os.path.dirname(__file__), "..", "output", "v2", "qr", "qr.svg")
+    return "data:image/svg+xml;base64," + base64.b64encode(open(p, "rb").read()).decode()
+
 def doc(pages_html, title):
     return f"""<!doctype html><html lang="de"><head><meta charset="utf-8"><title>{esc(title)}</title>
 <style>{CSS}</style></head><body>{pages_html}</body></html>"""
 
 
-def page(kicker, title, body, num=None, foot=True):
+def page(kicker, title, body, num=None, foot=True, qr_head=False):
     f = ""
+    qh = ""
+    if qr_head:
+        qh = (f'<div style="position:absolute;right:12mm;top:3mm;display:flex;align-items:center;gap:3mm">'
+              f'<div style="text-align:right;line-height:1.25"><div style="color:{ACCENT};font-weight:700;font-size:10pt">Interaktiv üben</div><div style="color:#DCE3F2;font-size:7.5pt">{URL_KURZ}</div></div>'
+              f'<div style="background:#fff;padding:0.8mm;border-radius:1.2mm"><img src="{qr_uri()}" style="display:block;width:22mm;height:22mm"></div></div>')
     if foot:
         f = f'<div class="foot"><span>Rechte und Pflichten aus dem Ausbildungsvertrag · Stand Oktober 2026</span><span>{num}</span></div>' if num else \
             '<div class="foot"><span>Rechte und Pflichten aus dem Ausbildungsvertrag · Stand Oktober 2026</span><span></span></div>'
-    return f"""<section class="page"><div class="head"><div class="kicker">{esc(kicker)}</div><h1>{esc(title)}</h1></div>
+    return f"""<section class="page"><div class="head"><div class="kicker">{esc(kicker)}</div><h1>{esc(title)}</h1>{qh}</div>
 <div class="body">{body}</div>{f}</section>"""
 
 
@@ -105,13 +117,18 @@ def icon(name, size="15mm", color=NAVY, acc=ACCENT):
     return f'<svg class="ic" style="width:{size};height:{size}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">{paths[name]}</svg>'
 
 
-def merkblatt_page(num=None, standalone=False):
+def merkblatt_page(num=None, standalone=False, qr=True):
     from data import MERKBLATT
     rows = "".join(f'<tr><td class="b">{esc(a)}</td><td>{esc(b)}</td><td class="p">{esc(c)}</td></tr>' for a, b, c in MERKBLATT)
     css = """<style>
     .mb table.t { font-size: 11pt; } .mb table.t th { background:#14264B; color:#fff; font-size:11pt; letter-spacing:.02em; border-bottom: 1.2mm solid #F5A800; }
-    .mb table.t td { padding: 2.6mm 3.5mm; } .mb table.t td.b { width: 34mm; font-size: 11pt; } .mb table.t td.p { width: 33mm; font-weight: 700; color:#14264B; border-left: 0.3mm solid #D5D9E3; }
+    .mb table.t td { padding: 1.5mm 3.5mm; } .mb table.t td.b { width: 34mm; font-size: 11pt; } .mb table.t td.p { width: 33mm; font-weight: 700; color:#14264B; border-left: 0.3mm solid #D5D9E3; }
     .mb table.t tr td { border-bottom: 0.3mm solid #8E97AC; }
     </style>"""
-    body = css + f'<div class="mb"><table class="t"><tr><th>Thema</th><th>Das müsst ihr wissen</th><th>Paragraf</th></tr>{rows}</table></div>'
+    strip = ""
+    if qr:
+        strip = (f'<div style="display:flex;align-items:center;gap:5mm;margin-top:3.5mm;border:0.5mm solid {NAVY};border-radius:2mm;padding:1.5mm 4mm;background:#fff">'
+                 f'<img src="{qr_uri()}" style="display:block;width:20mm;height:20mm;flex:none">'
+                 f'<div><div style="font-weight:700;font-size:13pt;color:{NAVY}">Üben auf dem Handy</div><div style="font-size:11pt">{URL_KURZ}</div></div></div>')
+    body = css + f'<div class="mb"><table class="t"><tr><th>Thema</th><th>Das müsst ihr wissen</th><th>Paragraf</th></tr>{rows}</table>{strip}</div>'
     return page("Zum Herausnehmen", "Merkblatt: Das Wichtigste auf einer Seite", body, num=num)

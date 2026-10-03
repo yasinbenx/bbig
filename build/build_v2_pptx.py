@@ -13,6 +13,8 @@ NAVY, NAVY2, ACC = H("14264B"), H("22386B"), H("F5A800")
 ACC_L, BLUE_L, GREY_L, INK, MUTED, WHITE = H("FFF1CC"), H("E8EEF9"), H("EDEFF4"), H("1A2238"), H("5B6680"), H("FFFFFF")
 GREEN, RED = H("2E9E4F"), H("D62839")
 IMG = os.path.join(os.path.dirname(__file__), "img")
+QR = os.path.join(os.path.dirname(__file__), "..", "output", "v2", "qr", "qr.png")
+URL_KURZ = "yasinbenx.github.io/azubi-vertrag"
 prs = Presentation(); prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
 BLANK = prs.slide_layouts[6]
 
@@ -69,12 +71,22 @@ def table(s, data, x, y, w, colw, size=16, rowh=0.5, fills=None):
                     c.fill.fore_color.rgb = fills[(i, j)][0]; r.font.color.rgb = WHITE; r.font.bold = True
     return t
 
+def qr_small(s, label="Am Handy üben"):
+    """kleiner QR-Code unten rechts auf weissem Grund, daneben Kurz-URL"""
+    rect(s, 11.85, 6.3, 1.1, 1.1, WHITE, H("BFC6D6"))
+    s.shapes.add_picture(QR, Inches(11.9), Inches(6.35), width=Inches(1.0), height=Inches(1.0))
+    text(s, 7.9, 6.54, 3.9, 0.7, [[(label, True, NAVY)], [(URL_KURZ, False, INK)]], 14, align=PP_ALIGN.RIGHT, anchor=MSO_ANCHOR.MIDDLE)
+
+def fallback_note(s, t):
+    text(s, 0.7, 6.4, 7.0, 1.0, t, 14, False, MUTED, anchor=MSO_ANCHOR.MIDDLE)
+
 # ===================================================================== 1 Titel
 s = slide(dark=True, notes=(
     "Yasin (0:30): „Guten Tag zusammen, wir sind Yasin und Mido. Wir zeigen euch kurz unser Projekt zu den Rechten und Pflichten aus dem Ausbildungsvertrag – und danach macht ihr selbst mit: Rote/Grüne Karte und Vertrags-Detektiv.“\n\n"
-    "ZEITPLAN (intern): Kern ca. 27 Minuten = Projekt 2 · Durchführung 4 · Booklet 2 · Rote/Grüne Karte 5 · Vertrags-Detektiv 8 · Merkblatt, Evaluation und Fragen 6. "
-    "Mit Modul A Experten-Runde (10 Minuten) und Modul B Abschluss-Mini-Quiz (6 Minuten) ca. 43 Minuten. "
-    "Die vier ausgeblendeten Zusatzfolien (13 bis 16) liegen direkt nach der Lösung zum Vertrags-Detektiv: Folie einblenden und abspielen."))
+    "ZEITPLAN (intern): Kern ca. 28 Minuten = Projekt 2 · Durchführung 4 · Booklet 2 · Jetzt seid ihr dran 1 · Rote/Grüne Karte 5 · Vertrags-Detektiv 8 · Merkblatt, Evaluation und Fragen 6. "
+    "Mit Modul A Experten-Runde (10 Minuten) und Modul B Abschluss-Mini-Quiz (6 Minuten) ca. 44 Minuten. "
+    "Die vier ausgeblendeten Zusatzfolien (14 bis 17) liegen direkt nach der Lösung zum Vertrags-Detektiv: Folie einblenden und abspielen.\n"
+    "PLAN B (intern): Fallen Internet oder Handys aus, laufen die Aktivitäten über die Folien: Rote/Grüne Karte mit Daumen hoch (stimmt) und Daumen runter (stimmt nicht), Vertrags-Detektiv direkt auf der Folie."))
 text(s, 1.0, 1.1, 11.5, 0.5, "PROJEKT IM FACH GP (GESCHÄFTSPROZESSE)", 16, True, ACC)
 text(s, 1.0, 1.7, 11.5, 2.2, "Rechte und Pflichten aus dem Ausbildungsvertrag", 48, True, WHITE)
 text(s, 1.0, 3.95, 11, 0.5, "Yasin & Mido · Kaufleute für Büromanagement", 24, False, H("DCE3F2"))
@@ -105,7 +117,7 @@ card(s, 6.85, 3.65, 5.8, 3.4, "SMART-Ziel 2 · Anwendung", "Bis 08.10. finden Mi
 
 # ===================================================================== 4 PSP / 5 Gantt
 s = slide("Projektstrukturplan", "Durchführung",
-          "Yasin (1:00): „Der Projektstrukturplan zeigt alle Aufgaben: Vorbereitung mit Planung, die Praxisbeispiele, Booklet und Aufgaben sowie Präsentation und Abschluss – zusammen zehn Arbeitspakete, jeweils mit Verantwortlichen: Yasin, Mido oder wir beide.“")
+          "Yasin (1:00): „Der Projektstrukturplan zeigt alle Aufgaben: Vorbereitung mit Planung, die Praxisbeispiele, Booklet und Aufgaben sowie Präsentation und Abschluss – zusammen elf Arbeitspakete, jeweils mit Verantwortlichen: Yasin, Mido oder wir beide.“")
 s.shapes.add_picture(os.path.join(IMG, "v2_psp_folie.png"), Inches(0.75), Inches(1.45), width=Inches(12.1))
 s = slide("Projektablaufplan (Soll)", "Durchführung",
           "Mido (1:00): „Der Projektablaufplan zeigt den Soll-Plan vom 10. September bis 8. Oktober: Vorbereitung im September, Umsetzung im Oktober. Fünf Meilensteine sichern den Plan, der letzte ist die Präsentation am 8. Oktober.“")
@@ -121,8 +133,8 @@ card(s, 0.7, 4.3, 5.95, 2.75, "Probleme und Anpassungen", "[eintragen]", 22, 24,
 card(s, 6.85, 4.3, 5.8, 2.75, "Rahmenbedingungen und Absprachen", [[("Rahmen: ", True, NAVY), ("2 Personen, feste Abgabe 08.10., keine nennenswerten Kosten, Vertragsauszüge nur anonymisiert", False, INK)], [("Absprachen: ", True, NAVY), ("[eintragen]", False, INK)]], 19, 17, ACC_L, ACC)
 
 # ===================================================================== 7 Booklet
-s = slide("Das Booklet im Überblick", "13 Seiten, fünf Bausteine",
-          "Mido (2:00): „Unser Booklet hat 13 Seiten: kurze Kapitel entlang der Prüfungsthemen, ein Merkblatt auf einer Seite, Aufgaben mit Erwartungshorizont – also Lösung, Paragraf und Begründung – und ein Mini-Quiz. Dazu kommen Glossar und Quellenverzeichnis. Ihr bekommt es nach den Aktivitäten.“")
+s = slide("Das Booklet im Überblick", "15 Seiten, fünf Bausteine",
+          "Mido (2:00): „Unser Booklet hat 15 Seiten: kurze Kapitel entlang der Prüfungsthemen, ein Merkblatt auf einer Seite, Aufgaben mit Erwartungshorizont – also Lösung, Paragraf und Begründung – und ein Mini-Quiz. Dazu kommen Glossar und Quellenverzeichnis. Ihr bekommt es nach den Aktivitäten.“")
 s.shapes.add_picture(os.path.join(IMG, "v2_b1.png"), Inches(9.5), Inches(1.5), height=Inches(5.3))
 for i, (h, b) in enumerate([("Kapitel", "kurze Kapitel entlang der Prüfungsthemen"), ("Merkblatt", "das Wichtigste auf einer Seite"), ("Aufgaben", "Vertrags-Detektiv, IHK-Fälle, Wahr oder falsch"),
                             ("Erwartungshorizont", "Lösung, Paragraf, Begründung, Punkte"), ("Quiz", "Mini-Quiz zum Selbsttesten")]):
@@ -131,22 +143,43 @@ for i, (h, b) in enumerate([("Kapitel", "kurze Kapitel entlang der Prüfungsthem
     rect(s, 1.5, y, 7.6, 0.85, BLUE_L); text(s, 1.65, y, 7.4, 0.85, [[(h + ": ", True, NAVY), (b, False, INK)]], 19, anchor=MSO_ANCHOR.MIDDLE)
 text(s, 0.7, 6.9, 8.4, 0.4, "Dazu: Glossar und Quellenverzeichnis", 16, False, MUTED)
 
+# ===================================================================== neue Folie: Jetzt seid ihr dran
+s = slide("Jetzt seid ihr dran", "Mitmachen am Handy",
+          "Yasin (0:30): „Jetzt seid ihr dran: Scannt den QR-Code und öffnet die Seite auf dem Handy.“\n"
+          "Mido (0:30): „Wählt eine Aktivität und klickt sie in fünf Minuten durch. Kein Handy? Schaut zu zweit mit.“\n"
+          "HINWEIS (intern): QR-Code 20 Sekunden stehen lassen.")
+rect(s, 0.7, 1.5, 5.4, 5.4, WHITE, H("BFC6D6"))
+s.shapes.add_picture(QR, Inches(0.85), Inches(1.65), width=Inches(5.1), height=Inches(5.1))
+rect(s, 6.5, 1.6, 6.3, 1.2, NAVY); rect(s, 6.5, 1.6, 0.1, 1.2, ACC)
+text(s, 6.7, 1.6, 6.0, 1.2, URL_KURZ, 24, True, WHITE, anchor=MSO_ANCHOR.MIDDLE)
+for i, t in enumerate(["QR-Code scannen", "Aktivität wählen", "in 5 Minuten durchklicken"]):
+    y = 3.05 + i * 0.95
+    rect(s, 6.5, y + 0.05, 0.7, 0.7, NAVY, shape=MSO_SHAPE.OVAL)
+    text(s, 0, 0, 0, 0, str(i + 1), 24, True, ACC, PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE, shape=s.shapes[-1])
+    text(s, 7.35, y, 5.5, 0.85, t, 26, False, INK, anchor=MSO_ANCHOR.MIDDLE)
+rect(s, 6.5, 6.05, 6.3, 0.85, ACC_L); rect(s, 6.5, 6.05, 0.1, 0.85, ACC)
+text(s, 6.7, 6.05, 6.0, 0.85, "Kein Handy? Schaut zu zweit mit.", 24, True, NAVY, anchor=MSO_ANCHOR.MIDDLE)
+
 # ===================================================================== 8-9 Rote/Gruene Karte
-rules = [[("Grüne Karte", True, GREEN), (" = stimmt", False, INK)], [("Rote Karte", True, RED), (" = stimmt nicht", False, INK)], "Auf „drei“ zeigen alle gleichzeitig"]
+rules = [[("Am Handy: ", True, NAVY), ("Rote/Grüne Karte öffnen und „Stimmt“ oder „Stimmt nicht“ antippen", False, INK)],
+         [("Ohne Handy: ", True, NAVY), ("Daumen hoch = stimmt, Daumen runter = stimmt nicht", False, INK)],
+         "Auf „drei“ zeigen alle gleichzeitig"]
 def rg_slide(part, items, start, notes):
     s = slide(f"Rote/Grüne Karte ({part} von 2)", "Aktivität 1", notes)
     if part == 1:
-        rect(s, 0.7, 1.7, 3.7, 5.3, BLUE_L); rect(s, 0.7, 1.7, 3.7, 0.1, ACC)
-        text(s, 0.85, 1.9, 3.4, 0.5, "Regeln", 24, True, NAVY)
-        text(s, 0.85, 2.6, 3.4, 4.2, rules, 22)
+        rect(s, 0.7, 1.7, 3.7, 4.55, BLUE_L); rect(s, 0.7, 1.7, 3.7, 0.1, ACC)
+        text(s, 0.85, 1.85, 3.4, 0.5, "Regeln", 22, True, NAVY)
+        text(s, 0.85, 2.4, 3.4, 3.8, rules, 17)
         x0, w0 = 4.7, 8.1
     else: x0, w0 = 0.7, 12.1
     for i, (t, _, _) in enumerate(items):
-        y = 1.7 + i * 1.07
-        rect(s, x0, y, 0.75, 0.9, NAVY); text(s, x0, y, 0.75, 0.9, str(start + i), 28, True, ACC, PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
-        rect(s, x0 + 0.75, y, w0 - 0.75, 0.9, GREY_L); text(s, x0 + 0.9, y, w0 - 1.0, 0.9, t, 20 if part == 1 else 24, True, NAVY, anchor=MSO_ANCHOR.MIDDLE)
-rg_slide(1, RG[:5], 1, "Yasin (2:00): „Aktivität 1: Rote/Grüne Karte. Grün heißt stimmt, rot heißt stimmt nicht. Ich lese die Aussage vor, auf ‚drei‘ zeigen alle gleichzeitig ihre Karte. Fünf Aussagen jetzt, fünf auf der nächsten Folie.“")
-rg_slide(2, RG[5:], 6, "Mido (2:00): „Noch fünf Aussagen, gleiche Regel: Auf ‚drei‘ zeigen alle ihre Karte. Danach lösen wir gemeinsam auf.“")
+        y = 1.7 + i * 0.94
+        rect(s, x0, y, 0.75, 0.8, NAVY); text(s, x0, y, 0.75, 0.8, str(start + i), 26, True, ACC, PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+        rect(s, x0 + 0.75, y, w0 - 0.75, 0.8, GREY_L); text(s, x0 + 0.9, y, w0 - 1.0, 0.8, t, 19 if part == 1 else 22, True, NAVY, anchor=MSO_ANCHOR.MIDDLE)
+    fallback_note(s, "Die Aktivität läuft am Handy über die Website. Diese Folie ist der Ersatz am Beamer, falls Internet oder Handys ausfallen.")
+    qr_small(s, "Am Handy: Rote/Grüne Karte")
+rg_slide(1, RG[:5], 1, "Yasin (2:00): „Aktivität 1: Rote/Grüne Karte. Scannt den QR-Code und öffnet die Rote/Grüne Karte am Handy: Stimmt oder Stimmt nicht antippen. Ohne Handy: Daumen hoch heißt stimmt, Daumen runter heißt stimmt nicht – auf ‚drei‘ zeigen alle gleichzeitig. Fünf Aussagen jetzt, fünf auf der nächsten Folie.“")
+rg_slide(2, RG[5:], 6, "Mido (2:00): „Noch fünf Aussagen, gleiche Regel: am Handy antippen oder Daumen zeigen, auf ‚drei‘ alle gleichzeitig. Danach lösen wir gemeinsam auf.“")
 
 # ===================================================================== 10 Loesung RG
 s = slide("Lösung: Rote/Grüne Karte", "Aktivität 1",
@@ -175,8 +208,10 @@ def excerpt(s, x, y, w, size, marks=False):
         yy += h + 0.03
     return yy
 s = slide("Vertrags-Detektiv: 5 Fehler", "Aktivität 2",
-          "Mido (5:00): „Aktivität 2: Vertrags-Detektiv. Im Vertragsauszug stecken fünf Fehler. Findet sie in Zweierteams und nennt zu jedem die passende Regel. Ihr habt fünf Minuten.“")
-rect(s, 0.7, 1.55, 12.0, 5.55, H("F6F8FC"), H("BFC6D6")); excerpt(s, 0.8, 1.6, 11.8, 18)
+          "Mido (5:00): „Aktivität 2: Vertrags-Detektiv. Öffnet am Handy den Vertrags-Detektiv, tippt die Zeilen an, die ihr für fehlerhaft haltet, und prüft. Ohne Handy sucht ihr die fünf Fehler hier auf der Folie. Ihr habt fünf Minuten.“")
+rect(s, 0.7, 1.5, 12.0, 4.8, H("F6F8FC"), H("BFC6D6")); excerpt(s, 0.8, 1.55, 11.8, 15)
+fallback_note(s, "Die Aktivität läuft am Handy über die Website. Diese Folie ist der Ersatz am Beamer, falls Internet oder Handys ausfallen.")
+qr_small(s, "Am Handy: Vertrags-Detektiv")
 s = slide("Lösung: Vertrags-Detektiv", "Aktivität 2",
           "Yasin (3:00): „Wir gehen die fünf Fehler durch, jeweils mit Paragraf. Für jeden Fehler gibt es einen Punkt fürs Finden und einen für die Begründung, höchstens zehn Punkte. Wie viele habt ihr gefunden?“")
 rect(s, 0.7, 1.55, 7.7, 5.6, H("F6F8FC"), H("BFC6D6")); excerpt(s, 0.75, 1.6, 7.6, 13, True)
@@ -199,16 +234,17 @@ for i, (h, key) in enumerate([("Probezeit", "Probezeit"), ("Urlaub", "Urlaub"), 
     card(s, 0.7 + (i % 2) * 6.15, 1.65 + (i // 2) * 2.7, 5.95, 2.5, f"{h} · {c}", b, 20, 17, [BLUE_L, ACC_L][(i + i // 2) % 2], [NAVY2, ACC][(i + i // 2) % 2])
 def abschluss_slide(title, loes):
     s = slide(title, "Modul B: Abschluss-Mini-Quiz (6 Minuten)" if not loes else "Modul B: Lösung", 
-              "Yasin (4:00): „Abschluss-Mini-Quiz: fünf neue Situationen, jeder notiert anonym A bis D auf einem Zettel. Die Zettel werden eingesammelt und ausgezählt.“" if not loes else
+              "Yasin (4:00): „Abschluss-Mini-Quiz: fünf neue Situationen. Öffnet am Handy die Seite Mini-Quiz und klickt die Fragen durch. Ohne Handy notiert ihr A bis D auf einem Zettel; die Fragen stehen auf dieser Folie.“" if not loes else
               "Mido (2:00): „Hier die Lösungen mit Paragraf. Wir zählen aus, wie viele richtig waren.“", hidden=True)
     if not loes:
         for i, a in enumerate(ABSCHLUSS):
             col, row = (0, i) if i < 3 else (1, i - 3); x = 0.7 + col * 6.2; y = 1.55 + row * 1.8
-            if col == 1: y = 1.55 + row * 2.7
-            h = 1.65 if col == 0 else 2.55
+            if col == 1: y = 1.55 + row * 2.3
+            h = 1.65 if col == 0 else 2.15
             rect(s, x, y, 6.0, h, BLUE_L); rect(s, x, y, 0.1, h, NAVY2)
             ans = "  ·  ".join(f"{L} {t}" for L, t in zip("ABCD", a["a"]))
             text(s, x + 0.2, y + 0.03, 5.7, h - 0.05, [[(f"{i+1}  ", True, ACC), (a["q"], True, NAVY)], ans], 12.5)
+        qr_small(s, "Am Handy: Mini-Quiz")
     else:
         table(s, [["Nr.", "Lösung", "Paragraf"]] + [[str(i + 1), f'{"ABCD"[a["c"]]} – {a["a"][a["c"]]}', a["fb"]] for i, a in enumerate(ABSCHLUSS)], 0.7, 1.6, 12.0, [0.9, 7.6, 3.5], 17, 0.85)
 abschluss_slide("Fünf neue Situationen", False); abschluss_slide("Lösung: Abschluss-Mini-Quiz", True)
@@ -224,11 +260,11 @@ for i, (h, b) in enumerate(rules6):
 
 # ===================================================================== 18 Evaluation und Reflexion
 s = slide("Evaluation und Reflexion", "Ziel erreicht?",
-          "Yasin und Mido (2:00): „Hat das Projekt sein Ziel erreicht? Im Vertrags-Detektiv wurden [eintragen] von 5 Fehlern gefunden. Verbesserungen: Booklet jährlich aktualisieren, Probelesen früher einplanen, [eigener Vorschlag]. Reflexion: Gut lief [..], schwierig war [..], beim nächsten Mal [..].“")
-card(s, 0.7, 1.65, 5.95, 1.55, "Ergebnis Vertrags-Detektiv", [[("[eintragen]", True, NAVY), (" von 5 Fehlern gefunden", False, INK)]], 20, 22, ACC_L, ACC)
-rect(s, 0.7, 3.4, 5.95, 3.65, BLUE_L); rect(s, 0.7, 3.4, 0.1, 3.65, NAVY2)
-text(s, 0.95, 3.48, 5.6, 0.5, "Verbesserungsvorschläge", 20, True, NAVY)
-text(s, 0.95, 4.05, 5.6, 3.0, ["1  Booklet jährlich aktualisieren (die Mindestausbildungsvergütung wird jedes Jahr neu festgelegt)", "2  Probelesen durch Mitschüler früher einplanen", "3  [eigener Vorschlag]"], 16)
+          "Yasin und Mido (2:00): „Hat das Projekt sein Ziel erreicht? Im Vertrags-Detektiv fanden [Anzahl] von [Anzahl] Mitschülern mindestens 4 von 5 Fehlern (Handzeichen). Verbesserungen: Booklet jährlich aktualisieren, Probelesen früher einplanen, [eigener Vorschlag]. Reflexion: Gut lief [..], schwierig war [..], beim nächsten Mal [..].“")
+card(s, 0.7, 1.65, 5.95, 2.3, "Ergebnis Vertrags-Detektiv", [[("[eintragen]", True, NAVY), (" von 5 Fehlern gefunden", False, INK)], [("[Anzahl]", True, NAVY), (" von ", False, INK), ("[Anzahl]", True, NAVY), (" Mitschülern fanden im Vertrags-Detektiv mindestens 4 von 5 Fehlern", False, INK)], [("(Zahlen per Handzeichen ermitteln)", False, MUTED)]], 20, 18, ACC_L, ACC)
+rect(s, 0.7, 4.15, 5.95, 2.9, BLUE_L); rect(s, 0.7, 4.15, 0.1, 2.9, NAVY2)
+text(s, 0.95, 4.2, 5.6, 0.5, "Verbesserungsvorschläge", 20, True, NAVY)
+text(s, 0.95, 4.7, 5.6, 2.3, ["1  Booklet jährlich aktualisieren (die Mindestausbildungsvergütung wird jedes Jahr neu festgelegt)", "2  Probelesen durch Mitschüler früher einplanen", "3  [eigener Vorschlag]"], 16)
 card(s, 6.85, 1.65, 5.8, 2.7, "Reflexion", [[("Gut lief: ", True, NAVY), ("[..]", False, INK)], [("Schwierig war: ", True, NAVY), ("[..]", False, INK)], [("Beim nächsten Mal: ", True, NAVY), ("[..]", False, INK)]], 20, 20)
 card(s, 6.85, 4.55, 5.8, 2.5, "Feedback der Klasse", "[eintragen]", 20, 24, GREY_L, MUTED)
 
