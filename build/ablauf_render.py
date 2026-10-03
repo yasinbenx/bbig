@@ -16,6 +16,7 @@ def chip_svg(xr, y, who, px, h=None):
             f'<text x="{xr-cw/2:.1f}" y="{y+ch*0.73:.1f}" text-anchor="middle" font-size="{fs:.1f}" font-weight="700" fill="#fff">{esc(t)}</text>'), cw
 
 def gantt(W, H, px=11.5, heute=True, lw=0.33):
+    global_H = H
     days = [START + dt.timedelta(i) for i in range((ENDE - START).days + 1)]
     nd = len(days)
     LW = W * lw
@@ -25,8 +26,9 @@ def gantt(W, H, px=11.5, heute=True, lw=0.33):
     hdr = [17, 15, 16, 12]                    # Monat, KW, Tag, Wochentag
     y_body = top + sum(hdr)
     ms_h = 46
-    leg_h = 16
-    rh = (H - y_body - ms_h - leg_h) / len(AP)
+    leg_h = 34
+    rh = min((H - y_body - ms_h - leg_h) / len(AP), 46 if len(AP) <= 12 else 38)
+    H = y_body + rh * len(AP) + ms_h + leg_h
     dx = lambda d: x0 + (d - START).days * dw
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" font-family="Liberation Sans, Arial, sans-serif">']
     chart_bottom = y_body + rh * len(AP)
@@ -92,6 +94,7 @@ def gantt(W, H, px=11.5, heute=True, lw=0.33):
     lx = 8; ly = my + 30
     for k, nm, t in MS:
         txt = f"M{k} {nm} ({fmt(t)})"
+        if lx + 14 + tw(txt, px * 0.88) > W - 8: lx = 8; ly += 16
         s.append(f'<path d="M{lx+5} {ly-9} l5 5 l-5 5 l-5 -5 z" fill="{ACC}" stroke="{NAVY}" stroke-width="1"/>')
         s.append(f'<text x="{lx+14}" y="{ly}" font-size="{px*0.88:.1f}" fill="{INK}">{esc(txt)}</text>')
         lx += 14 + tw(txt, px * 0.88) + 18
@@ -105,17 +108,18 @@ def gantt(W, H, px=11.5, heute=True, lw=0.33):
     return "\n".join(s)
 
 
-POS = {1: (0, 2), 2: (1, 0), 3: (1, 2), 4: (1, 3), 5: (2, 2), 18: (3, 0), 6: (3, 2), 7: (3, 3), 9: (4, 1), 11: (4, 2), 10: (4, 3),
+_POS_OLD = {1: (0, 2), 2: (1, 0), 3: (1, 2), 4: (1, 3), 5: (2, 2), 18: (3, 0), 6: (3, 2), 7: (3, 3), 9: (4, 1), 11: (4, 2), 10: (4, 3),
        8: (5, 1), 12: (5, 2), 13: (5, 3), 14: (5, 4), 16: (6, 1), 17: (6, 2), 15: (6, 3), 19: (7, 2)}
+POS = globals().get('POS_NET') or _POS_OLD
 
-def netzplan(W, H, px=10.5):
-    nl, nr = 8, 5
+def netzplan(W, H, px=10.5, bhmax=86):
+    nl, nr = max(l for l, r in POS.values()) + 1, max(r for l, r in POS.values()) + 1
     m = 6
     pitch = (W - 2 * m) / nl
     bw = pitch * 0.78
     gap = pitch - bw
     top = 6
-    bh = min(86, (H - 2 * top - 34) / nr * 0.78)
+    bh = min(bhmax, (H - 2 * top - 34) / nr * 0.78)
     rp = (H - top - 34 - bh) / (nr - 1)
     X = lambda L: m + L * pitch
     Y = lambda r: top + r * rp

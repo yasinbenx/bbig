@@ -24,7 +24,9 @@ HY = {"Berufsausbildungsvertrag": ["Berufs-", "ausbildungs-", "vertrag"], "Erwar
       "Praxisbeispiele": ["Praxis-", "beispiele"], "Projektbericht": ["Projekt-", "bericht"], "Projektplanung": ["Projekt-", "planung"],
       "Übungsteil": ["Übungs-", "teil"], "Generalprobe": ["General-", "probe"], "Korrekturlesen": ["Korrektur-", "lesen"],
       "Booklet-Projekt": ["Booklet-", "Projekt"], "Ausbildungsvertrag": ["Ausbildungs-", "vertrag"], "Präsentation": ["Präsen-", "tation"],
-      "Druckmaterial": ["Druck-", "material"], "Abgleich": ["Ab-", "gleich"]}
+      "Druckmaterial": ["Druck-", "material"], "Abgleich": ["Ab-", "gleich"],
+      "Projektstrukturplan": ["Projekt-", "struktur-", "plan"], "Projektablaufplan": ["Projekt-", "ablauf-", "plan"], "Praxisbeispiele": ["Praxis-", "beispiele"],
+      "Erwartungshorizont": ["Erwartungs-", "horizont"], "Korrekturlesen": ["Korrektur-", "lesen"], "Vorbereitung": ["Vor-", "bereitung"]}
 
 def wrap(text, px, maxw, bold=False):
     toks = []                         # (text, glue_to_previous)
@@ -55,10 +57,11 @@ def chip(x, y, who, px):
 def build(W, H, top=10, px=12.5, bottom=34, title_band=0):
     """liefert (svg, ok)"""
     mx, g = 26, 14
-    weights = [0.95, 1.3, 1.55, 1.25, 1.0, 0.95, 0.95]
-    avail = W - 2 * mx - 6 * g
+    nch = len(PSP["children"])
+    weights = PSP.get("weights") or ([0.95, 1.3, 1.55, 1.25, 1.0, 0.95, 0.95] if nch == 7 else [1.0] * nch)
+    avail = W - 2 * mx - (nch - 1) * g
     cw = [avail * w / sum(weights) for w in weights]
-    cx = [mx + sum(cw[:i]) + g * i for i in range(7)]
+    cx = [mx + sum(cw[:i]) + g * i for i in range(nch)]
     lh = px * 1.2
     ind1, ind2 = 24, 52
     def ap_box(n, x, w, y):
@@ -68,6 +71,7 @@ def build(W, H, top=10, px=12.5, bottom=34, title_band=0):
     out, boxes = [], []
     # Wurzel
     rw, rh = min(330, W * 0.3), px * 2.9
+    rw = max(rw, tw(PSP["root"], px * 1.15, True) + 40)
     rx = (W - rw) / 2
     ry = top
     root_lines = wrap(PSP["root"], px * 1.15, rw - 20, True)
