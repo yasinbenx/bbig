@@ -209,7 +209,7 @@ rect(s, 1.2, 2.0, 9.4, 0.5, NAVY); text(s, 1.2, 2.0, 9.4, 0.5, "Ausbildungsdauer
 for xx in (1.2, 10.6): rect(s, xx - 0.2, 1.95, 0.6, 0.6, ACC, NAVY, MSO_SHAPE.OVAL, 3)
 text(s, 0.7, 2.65, 2.6, 0.6, "Beginn", 24, True, NAVY)
 text(s, 8.7, 2.65, 4.2, 0.6, "Prüfung", 24, True, NAVY, PP_ALIGN.RIGHT)
-text(s, 7.2, 3.1, 5.7, 0.7, "Ende mit Bekanntgabe des Prüfungsergebnisses", 20, False, INK, PP_ALIGN.RIGHT)
+text(s, 5.2, 3.05, 7.7, 0.5, "Ende mit Bekanntgabe des Prüfungsergebnisses", 20, False, INK, PP_ALIGN.RIGHT)
 card(s, 0.7, 3.7, 5.85, 3.2, "Verkürzung", "auf gemeinsamen Antrag von Azubi und Betrieb bei der zuständigen Stelle", 26, 24, H("E3F3EA"), GREEN)
 card(s, 6.75, 3.7, 5.85, 3.2, "Verlängerung", "nur in Ausnahmefällen auf Antrag des Azubis oder nach nicht bestandener Prüfung bis zur Wiederholungsprüfung, höchstens um ein Jahr", 26, 24, H("FCEBDD"), ORANGE)
 
