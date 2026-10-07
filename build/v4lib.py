@@ -84,12 +84,17 @@ def qr_block(s, x, y, size, alt="QR-Code zur Übungsseite"):
     pic(s, QR, x + pad, y + pad, size, size, alt)
 
 
+PH_W = None
+
+
 def band(s, idx):
-    w = 13.333 / len(PHASES)
+    ws = PH_W or [1] * len(PHASES); tot = sum(ws); x = 0
     for i, ph in enumerate(PHASES):
-        cur, done = i == idx, i < idx
-        r = rect(s, i * w, 0, w, 0.5, ACC if cur else (NAVY2 if done else NAVY), WHITE, lw=1)
-        text(s, i * w, 0, w, 0.5, ph, 24, cur, NAVY if cur else WHITE, PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+        w = 13.333 * ws[i] / tot; cur, done = i == idx, i < idx
+        rect(s, x, 0, w, 0.5, ACC if cur else (NAVY2 if done else NAVY), WHITE, lw=1)
+        t = text(s, x, 0, w, 0.5, ph, 24, cur, NAVY if cur else WHITE, PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+        t.text_frame.word_wrap = False; t.text_frame.margin_left = t.text_frame.margin_right = 0
+        x += w
 
 
 def badge(s, t, x=0.55, w=None, fill=NAVY, fg=WHITE, y=6.92):
