@@ -175,26 +175,7 @@ q = "".join(f'<li style="margin-bottom:1.1mm"><a href="{u}" style="color:{NAVY2}
 P.append(page("Nachschlagen", "Glossar und Quellen", gl + f'<div style="font-size:9pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{MUTED};margin:6mm 0 1.5mm">Quellenverzeichnis</div><ul style="list-style:none;font-size:8.2pt;line-height:1.3">{q}</ul>'
   f'<div style="display:flex;align-items:center;gap:6mm;margin-top:6mm;border:0.5mm solid {NAVY};border-radius:2.5mm;padding:3mm 5mm"><img src="{qr_uri()}" style="width:24mm;height:24mm"><div><div style="font-weight:700;font-size:12pt;color:{NAVY}">Weiter üben</div><div style="font-size:10.5pt">{URL_KURZ}</div><div class="note">Rechte und Pflichten aus dem Ausbildungsvertrag · Yasin &amp; Mido · Fach GP · Stand Oktober 2026</div></div></div>', 16))
 
-# ---------------------------------------------------------------- 17 Quellen und KI-Nutzung
-PR = [("Booklet (inkl. Merkblatt, Quiz, Booklet v4)", "Skript des Teams auswerten und daraus Booklet, Merkblatt und Quiz erstellen, nichts erfinden; später neues Booklet passend zur Präsentation", "03.10.2026 14:32; 07.10.2026 14:28 · Commits 4ec59d4, 290ea89"),
-      ("Präsentation / Unterrichtsstunde", "Ganze Unterrichtsstunde in Lehrerrolle bauen, dann auf sechs Phasen kürzen und umstrukturieren", "06.10.2026 12:41; 07.10.2026 13:50, 14:13 · Commits b9b89d2, 5fd7869, a0acc44"),
-      ("Website mit QR-Code", "Aktivitäten auf dem Handy über eine kleine Website mit QR-Code in der Präsentation; GitHub Pages", "03.10.2026 17:36 · Commits 89c903b, be22458"),
-      ("Projektskizze, PSP, Ablaufplan", "Neue Projektskizze, Projektstrukturplan und Projektablaufplan; später passend zum Endstand mit Protokollvorlage und Checkliste", "03.10.2026 15:02, 15:04, 17:10; 07.10.2026 14:28 · Commits f0d0b43, 1eb69ef, 89305ab"),
-      ("Sprechskripte", "Sprechskript für jede Folie mit Sprecher, Dauer, Klickhinweisen und Fragen an die Klasse", "07.10.2026 14:28 · Commit 290ea89"),
-      ("Überarbeitungen", "Glossar bleibt drin, mehr Booklet-Seiten erlaubt, Veröffentlichung der Website selbst durchführen", "03.10.2026 17:13, 17:38, 18:00 · Commits 1eb69ef, 89c903b")]
-prt = "".join(f'<tr><td class="b" style="width:34mm">{esc(a)}</td><td>{esc(b)}</td><td style="width:52mm;font-size:8pt">{esc(c)}</td></tr>' for a, b, c in PR)
-P.append(page("Nachweise", "Quellen und KI-Nutzung", f"""<style>.qk table.t td{{padding:1.5mm 2.4mm;font-size:8.8pt}} .qk table.t th{{padding:1.6mm 2.4mm;font-size:8.8pt}}</style><div class="qk">
-<h2 style="margin:0 0 1.5mm">1 Rechtsquellen</h2>
-<p style="font-size:9.8pt;line-height:1.45">BBiG · JArbSchG · BUrlG · ArbZG · § 126b BGB (Textform, Glossar) · Mindestausbildungsvergütung 2026 (§ 17 BBiG) · IHK-Prüfungskatalog, Unterpunkt 0103 · Rechtsstand Oktober 2026. Grundlage ist das Skript des Teams; die verlinkten Quellen stehen auf Seite 16.</p>
-<h2 style="margin:5mm 0 1.5mm">2 KI-Nutzung</h2>
-<p style="font-size:9.8pt;line-height:1.45">Für dieses Projekt wurden Claude und Claude Code (Anthropic) genutzt, um das Skript des Teams auszuwerten und Entwürfe für Booklet, Präsentation, Website und Projektunterlagen zu erstellen. Im Projektverlauf wurde keine eigene Websuche durchgeführt; die Inhalte stammen aus dem Skript.</p>
-<div style="background:{ACCENT_L};border-left:2mm solid {ACCENT};padding:2.2mm 4mm;font-size:9.6pt;font-weight:700;color:{NAVY};margin-top:2.5mm">[von uns zu bestätigen: Inhalte geprüft und angepasst]</div>
-<h2 style="margin:5mm 0 1.5mm">3 Prompts (sinngemäß)</h2>
-<table class="t"><tr><th>Zweck</th><th>Prompt (sinngemäß)</th><th>Beleg (Session, UTC · Commit)</th></tr>{prt}</table>
-<h2 style="margin:5mm 0 1.5mm">4 Gestaltung</h2>
-<p style="font-size:9.8pt;line-height:1.45">Schrift Liberation Sans, Farben Navy #14264B und Gelb-Orange #F5A800; Icons selbst gezeichnet; Layout aus HTML und CSS als PDF erzeugt.</p></div>""", 17))
-
-assert len(P) == 17, len(P)
+assert len(P) == 16, len(P)
 hp = os.path.join(OUT, "_booklet.html"); open(hp, "w", encoding="utf-8").write(doc("".join(P), "Rechte und Pflichten aus dem Ausbildungsvertrag"))
 render_pdf.render(hp, os.path.join(OUT, "booklet_v4.pdf")); os.remove(hp)
 # Merkblatt: eine Seite
