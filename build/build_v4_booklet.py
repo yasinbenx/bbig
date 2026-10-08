@@ -175,7 +175,29 @@ q = "".join(f'<li style="margin-bottom:1.1mm"><a href="{u}" style="color:{NAVY2}
 P.append(page("Nachschlagen", "Glossar und Quellen", gl + f'<div style="font-size:9pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{MUTED};margin:6mm 0 1.5mm">Quellenverzeichnis</div><ul style="list-style:none;font-size:8.2pt;line-height:1.3">{q}</ul>'
   f'<div style="display:flex;align-items:center;gap:6mm;margin-top:6mm;border:0.5mm solid {NAVY};border-radius:2.5mm;padding:3mm 5mm"><img src="{qr_uri()}" style="width:24mm;height:24mm"><div><div style="font-weight:700;font-size:12pt;color:{NAVY}">Weiter üben</div><div style="font-size:10.5pt">{URL_KURZ}</div><div class="note">Rechte und Pflichten aus dem Ausbildungsvertrag · Yasin &amp; Mido · Fach GP · Stand Oktober 2026</div></div></div>', 16))
 
-assert len(P) == 16, len(P)
+# ---------------------------------------------------------------- 17 KI-Nutzung und Gestaltung
+PR = [("Internetseite (Website, QR-Code)", "Kleine Seite ohne Framework bauen, fürs Handy, große Schrift und Buttons, richtig/falsch nicht nur über Farbe", "Website mit sieben Übungsseiten (site/)"),
+      ("", "Design wie Booklet und Präsentation: Navy, gelb-oranger Akzent, viel Weißraum", "einheitliche Optik in site/css"),
+      ("", "Karte, Detektiv, IHK-Fälle und Mini-Quiz auf dem Handy, eine Aussage pro Bildschirm; QR-Code in Folien, Booklet und Merkblatt", "Aufgaben auf der Seite, QR-Code unter output/v2/qr"),
+      ("Präsentation (Design)", "Navy und Gelb-Orange, Calibri, einheitliche Folienlayouts, Erklärfolien mit wenigen Zeilen und großer Schrift", "praesentation_unterricht_v4.pptx"),
+      ("", "Visualisierung statt Text: Balken, Icons, Entscheidungsbaum für die Kündigung", "Folien 4 bis 12"),
+      ("", "Lösungen per Klick schrittweise aufdecken", "Klick-Animationen auf Folien 16 bis 20"),
+      ("", "Präsentation radikal kürzen und auf sechs Phasen umstrukturieren", "22 sichtbare und 5 versteckte Folien"),
+      ("Booklet (Design)", "A4 hochkant, Navy als Hauptfarbe, gelb-oranger Akzent, viel Weißraum; Seitenzahl und Aufbau mehrfach angepasst", "booklet_v4.pdf (zuletzt 16 Seiten)"),
+      ("", "Merkblatt auf einer A4-Seite mit QR-Code „Üben auf dem Handy“", "merkblatt_v4.pdf")]
+rows_pr = ""; first = True
+for a, b, c in PR:
+    top = "border-top:.5mm solid #14264B;" if a and not first else ""
+    first = False
+    rows_pr += f'<tr><td class="b" style="width:36mm;{top}">{esc(a)}</td><td style="{top}">{esc(b)}</td><td style="width:50mm;{top}">{esc(c)}</td></tr>'
+P.append(page("Nachweise", "KI-Nutzung und Gestaltung", f"""<style>.qk table.t td{{padding:1.8mm 2.4mm;font-size:9pt;line-height:1.35}} .qk table.t th{{padding:1.8mm 2.4mm;font-size:9pt}}</style><div class="qk">
+<p style="font-size:9.5pt;line-height:1.45;margin-bottom:3mm">Die Prompts sind sinngemäß in unseren Worten wiedergegeben. Booklet, Präsentation und Internetseite wurden mit Claude Code gestaltet und erstellt.</p>
+<table class="t"><tr><th>Bereich</th><th>Prompt (sinngemäß)</th><th>Ergebnis</th></tr>{rows_pr}</table>
+<h2 style="margin:6mm 0 1.5mm">Werkzeuge und Gestaltung</h2>
+<p style="font-size:9.5pt;line-height:1.5">Claude Code. Präsentation: Schrift Calibri, Farben Navy #1F2A44 und Gelb-Orange #F5A623. Booklet und Internetseite: Navy #14264B und Gelb-Orange #F5A800; Schrift im Booklet Liberation Sans, auf der Internetseite Systemschriften.</p>
+<div style="background:{ACCENT_L};border-left:2mm solid {ACCENT};padding:2.4mm 4mm;font-size:9.6pt;font-weight:700;color:{NAVY};margin-top:4mm">[von uns zu bestätigen: Ergebnisse geprüft und angepasst]</div></div>""", 17))
+
+assert len(P) == 17, len(P)
 hp = os.path.join(OUT, "_booklet.html"); open(hp, "w", encoding="utf-8").write(doc("".join(P), "Rechte und Pflichten aus dem Ausbildungsvertrag"))
 render_pdf.render(hp, os.path.join(OUT, "booklet_v4.pdf")); os.remove(hp)
 # Merkblatt: eine Seite
